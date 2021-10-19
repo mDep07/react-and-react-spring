@@ -7,10 +7,12 @@ import { useSpring, animated } from 'react-spring';
 const StyledInput = styled(animated.input)`
   padding: 10px 15px;
   font-size: 20px;
+  text-align: center
 `;
 
 const StyledParagraph = styled(animated.p)`
-  font-size: 45px
+  font-size: 45px;
+  color: ${(props) => (props.content ? 'inherit' : '#ccc')}
 `;
 
 const Input = ({ handleChangeText }) => {
@@ -22,10 +24,16 @@ const Input = ({ handleChangeText }) => {
     handleChangeText(value);
   };
 
-  return <StyledInput value={text} onChange={onChangeValue} />;
+  const onkeyUp = (input) => {
+    console.log(input);
+  };
+
+  return (
+    <StyledInput value={text} onChange={onChangeValue} onKeyPress={onkeyUp} />
+  );
 };
 
-const ParagraphAnimated = ({ children }) => {
+const ParagraphAnimated = ({ children, placeholder }) => {
   const [styles, animate] = useSpring(() => ({
     from: { opacity: 0, y: -5 },
     to: { opacity: 1, y: 0 },
@@ -35,27 +43,26 @@ const ParagraphAnimated = ({ children }) => {
     animate({ from: { opacity: 0, y: -5 }, to: { opacity: 1, y: 0 } });
   }, [children]);
 
-  return <StyledParagraph style={styles}>{children}</StyledParagraph>;
+  return (
+    <StyledParagraph content={!!children} style={styles}>
+      {children || placeholder}
+    </StyledParagraph>
+  );
 };
 
-const ParagraphAnimated2 = ({ children }) => {
+const ParagraphAnimated2 = ({ children, placeholder }) => {
   const [styles, animate] = useSpring(() => ({
-    from: { y: -5 },
-    to: { y: 0 },
+    from: { opacity: 0, y: -5 },
+    to: { opacity: 1, y: 0 },
   }));
 
   useEffect(() => {
-    console.log(children.split(''));
-    animate({ from: { y: -5 }, to: { y: 0 } });
-  }, []);
+    animate({ from: { opacity: 0, y: -5 }, to: { opacity: 1, y: 0 } });
+  }, [children]);
 
   return (
-    <StyledParagraph>
-      {children.split('').map((letter, index) => (
-        <span key={index} style={styles}>
-          {letter}
-        </span>
-      ))}
+    <StyledParagraph content={!!children} style={styles}>
+      {children || placeholder}
     </StyledParagraph>
   );
 };
@@ -65,14 +72,12 @@ export default function App() {
   const [start, setStart] = useState(true);
   const changeText = (text) => setText(text);
 
-  const handleStartAnimation = () => setStart(!start);
-
   return (
     <div style={{ textAlign: 'center' }}>
       <Input handleChangeText={changeText} />
-      <ParagraphAnimated>{text}</ParagraphAnimated>
-      <button onClick={handleStartAnimation}>{start ? 'stop' : 'start'}</button>
-      {start && <ParagraphAnimated2>{text}</ParagraphAnimated2>}
+      <ParagraphAnimated placeholder="Ingrese su nombre.">
+        {text}
+      </ParagraphAnimated>
     </div>
   );
 }
