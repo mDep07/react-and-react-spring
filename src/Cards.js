@@ -5,10 +5,12 @@ import styled from 'styled-components';
 import { useSpring, useSprings, useTransition, animated } from 'react-spring';
 
 const StyledListCards = styled(animated.section)`
+  margin: 0 auto;
   margin-top: 1rem;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 1rem;
+  width: 80%;
 `;
 
 const StyledCard = styled(animated.div)`
@@ -26,11 +28,10 @@ const StyledCard = styled(animated.div)`
 const StyledButtonCard = styled(animated.button)`
   cursor: pointer;
   border: none;
-  background: #8f1a4f;
-  padding: .45rem;
+  background: ${({ color }) => (!color ? '#8f1a4f' : color)};
+  padding: .45rem 2rem;
   font-size: 1em;
-  display: block;
-  width: 100%;
+  display: inline-block;
   border-radius: 100px;
   color: #fff;
   transition: 
@@ -38,11 +39,16 @@ const StyledButtonCard = styled(animated.button)`
     transform .15s ease-in-out;
   &:hover {
     transform: translateY(-3px);
-    box-shadow: 0 3px 0 0 #470c27, inset 0 0 0 0 #470c27;
+    box-shadow: 
+    0 3px 0 0 ${({ color2 }) =>
+      !color2 ? '#3d051e' : color2}, inset 0 0 0 0 ${({ color2 }) =>
+  !color2 ? '#3d051e' : color2};
   }
   &:active {
     transform: translateY(0);
-    box-shadow: 0 0 0 0 #470c27, inset 0 1px 2px 0 #470c27;
+    box-shadow: 0 0 0 0 ${({ color2 }) =>
+      !color2 ? '#3d051e' : color2}, inset 0 1px 2px 0 ${({ color2 }) =>
+  !color2 ? '#3d051e' : color2};
   }
 `;
 
@@ -65,9 +71,18 @@ export default function Cards({ list, handleDelete }) {
       {listAnimation.map((styles, i) => (
         <StyledCard style={styles} key={i}>
           <h1>{list[i].name}</h1>
-          <StyledButtonCard onClick={() => handleDelete(i)}>
-            Eliminar
-          </StyledButtonCard>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: 5 }}>
+            <StyledButtonCard
+              color="#DC0404"
+              color2="#780202"
+              onClick={() => handleDelete(i)}
+            >
+              Eliminar
+            </StyledButtonCard>
+            <StyledButtonCard color="#70C321" color2="#477C15">
+              Editar
+            </StyledButtonCard>
+          </div>
         </StyledCard>
       ))}
     </StyledListCards>
