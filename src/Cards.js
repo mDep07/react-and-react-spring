@@ -11,6 +11,9 @@ const StyledListCards = styled(animated.section)`
   grid-template-columns: 1fr 1fr 1fr;
   gap: 1rem;
   width: 80%;
+  @media(max-width: 800px) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 const StyledCard = styled(animated.div)`
@@ -26,17 +29,22 @@ const StyledCard = styled(animated.div)`
 `;
 
 const StyledButtonCard = styled(animated.button)`
+  position: relative;
   cursor: pointer;
   border: none;
   background: ${({ color }) => (!color ? '#8f1a4f' : color)};
-  padding: .45rem 2rem;
-  font-size: 1em;
+  padding: .5rem 0;
+  width: 100px;
+  font-size: .7em;
+  font-weight: 600;
+  text-transform: uppercase;
   display: inline-block;
   border-radius: 100px;
   color: #fff;
   transition: 
     box-shadow .15s ease-in-out,
-    transform .15s ease-in-out;
+    transform .15s ease-in-out,
+    padding-left .15s ease-in-out;
   &:hover {
     transform: translateY(-3px);
     box-shadow: 
@@ -49,6 +57,10 @@ const StyledButtonCard = styled(animated.button)`
     box-shadow: 0 0 0 0 ${({ color2 }) =>
       !color2 ? '#3d051e' : color2}, inset 0 1px 2px 0 ${({ color2 }) =>
   !color2 ? '#3d051e' : color2};
+  }
+
+  & > span {
+    
   }
 `;
 
@@ -69,10 +81,13 @@ export default function Cards({ list, handleDelete }) {
               color2="#780202"
               onClick={() => handleDelete(i)}
             >
-              Eliminar
+              <span>❌</span> Eliminar
+            </StyledButtonCard>
+            <StyledButtonCard color="#2d60cf" color2="#173a87">
+              <span>✍</span> Editar
             </StyledButtonCard>
             <StyledButtonCard color="#70C321" color2="#477C15">
-              Editar
+              <span>✅</span> Terminar
             </StyledButtonCard>
           </div>
         </StyledCard>
