@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './style.css';
 
 import styled from 'styled-components';
-import { useSpring, useSprings, useTransition, animated } from 'react-spring';
+import { useSpring, useSprings, useSpringRef, animated } from 'react-spring';
 
 const StyledListCards = styled(animated.section)`
   margin: 0 auto;
@@ -53,18 +53,10 @@ const StyledButtonCard = styled(animated.button)`
 `;
 
 export default function Cards({ list, handleDelete }) {
-  const [listAnimation, set] = useSprings(list.length, (index) => ({
+  const [listAnimation, api] = useSprings(list.length, (index) => ({
     from: { opacity: 0, y: -10 },
     to: { opacity: 1, y: 0 },
   }));
-
-  useEffect(() => {
-    // set((index) => ({
-    //   from: { opacity: 0, y: -10 },
-    //   to: { opacity: 1, y: 0 },
-    //   delay: 100,
-    // }));
-  }, [list]);
 
   return (
     <StyledListCards>
@@ -85,6 +77,7 @@ export default function Cards({ list, handleDelete }) {
           </div>
         </StyledCard>
       ))}
+      <p>{listAnimation.length === 0 && 'Sin cards'}</p>
     </StyledListCards>
   );
 }

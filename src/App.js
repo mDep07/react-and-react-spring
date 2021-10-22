@@ -27,7 +27,7 @@ const Input = ({ handleChangeText, valueText }) => {
   };
 
   const onkeyUp = (input) => {
-    console.log(input);
+    // console.log(input);
   };
 
   return (
