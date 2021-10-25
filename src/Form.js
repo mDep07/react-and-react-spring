@@ -15,8 +15,31 @@ const StyledInput = styled(animated.input)`
   font-size: 20px;
   display: block;
   outline: none;
+  border-radius: 1000px;
+  border: none;
+  background-color: #e8e8e8;
+  color: #000;
+  transform: translateY(-3px);
+  box-shadow: 
+      0 3px 0 0 #c4c4c4, inset 0 0 0 0 #c4c4c4;
+  transition: 
+    box-shadow .15s ease-in-out,
+    transform .15s ease-in-out;
+
   &:not(:first-child) {
     margin-top: 1rem
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+        0 2px 0 0 #c4c4c4, inset 0 0 0 0 #c4c4c4;
+  }
+
+  &:focus {
+    transform: translateY(0);
+    box-shadow: 
+        0 0 0 0 #c4c4c4, inset 0 1px 2px 0 #c4c4c4;
   }
 `;
 
