@@ -29,14 +29,23 @@ const StyledListCards = styled(animated.section)`
 const StyledCard = styled(animated.div)`
   position: relative;
   padding: .5rem;
-  border-radius: 1.5rem;
+  border-radius: 1rem;
   background-color: #fff;
-  box-shadow: 0 1px 15px #dedede;
+  box-shadow: 
+    0 0 0 1px #adadad, 
+    2px 2px 0 1px #adadad,
+    4px 4px 0 1px #adadad,
+    6px 6px 0 1px #adadad;
   text-align: left;
   color: #424242;
   transition: box-shadow .15s ease-in-out;
   &:hover {
-    box-shadow: 0 2px 5px #b5b5b5, 0 5px 15px #d9d9d9;
+    transform: translateY(-5px);
+    box-shadow: 
+      0 0 0 1px #adadad, 
+      0 0 0 1px #adadad,
+      0 0 0 1px #adadad,
+      2px 2px 0 1px #adadad;
   }
 
   &.loading::before {
