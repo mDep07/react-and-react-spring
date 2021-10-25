@@ -35,10 +35,11 @@ const CheckSVG = () => {
 };
 
 const StyledForm = styled(animated.form)`
+  display: block;
   background-color: #fff;
   padding: 10px;
   border-radius: 1rem;
-  max-width: 450px
+  max-width: 450px;
 `;
 
 const StyledFormSection = styled.section`
@@ -176,6 +177,7 @@ export default function Form({ handleNewTask }) {
       const task = { title: text, importance: importanceCheckbox };
       handleNewTask(task);
       changeText('');
+      setImportanceCheckbox(false);
     }
   };
 

@@ -8,6 +8,28 @@ import Db from './Db';
 import Cards from './Cards';
 import Form from './Form';
 
+const size = {
+  xs: '320px',
+  sm: '768px',
+  lg: '1200px',
+};
+export const device = {
+  xs: `(min-width: ${size.xs})`,
+  sm: `(min-width: ${size.sm})`,
+  lg: `(min-width: ${size.lg})`,
+};
+
+const StyledContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justifyContent: center;
+  gap: 1rem;
+
+  @media screen and ${device.sm} {
+    flex-direction: row;
+  }
+`;
+
 const StyledParagraph = styled(animated.p)`
   font-size: 45px;
   color: ${(props) => (props.content ? 'inherit' : '#ccc')}
@@ -51,12 +73,12 @@ export default function App() {
   };
 
   return (
-    <div style={{ textAlign: 'center' }}>
+    <StyledContainer>
       <Form handleNewTask={addNewTask} />
       <Cards list={tasks} handleDelete={deleteTask} />
       {/* <ParagraphAnimated placeholder="Ingrese su nombre.">
         {text}
       </ParagraphAnimated> */}
-    </div>
+    </StyledContainer>
   );
 }
