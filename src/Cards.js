@@ -1,8 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import './style.css';
 
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { useSpring, useSprings, useSpringRef, animated } from 'react-spring';
+
+const rotate = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+`;
 
 const StyledListCards = styled(animated.section)`
   margin: 0 auto;
@@ -17,14 +27,43 @@ const StyledListCards = styled(animated.section)`
 `;
 
 const StyledCard = styled(animated.div)`
+  position: relative;
   padding: .5rem;
   border-radius: 1.5rem;
   background-color: #fff;
   box-shadow: 0 1px 15px #dedede;
+  text-align: left;
   color: #424242;
   transition: box-shadow .15s ease-in-out;
   &:hover {
     box-shadow: 0 2px 5px #b5b5b5, 0 5px 15px #d9d9d9;
+  }
+
+  &.loading::before {
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 1.5rem;
+    background: rgba(255,255,255, .75);
+    z-index: 2;
+  }
+
+  &.loading::after {
+    position: absolute;
+    content: '';
+    width: 35px;
+    height: 35px;
+    top: calc(50% - calc(45px / 2));
+    left: calc(50% - calc(45px / 2));
+    background: transparent;
+    border: 5px solid #232323;
+    border-left-color: transparent;
+    animation: ${rotate} .75s linear infinite;
+    border-radius: 1000px;
+    z-index: 3;
   }
 `;
 
@@ -70,35 +109,65 @@ export default function Cards({ list, handleDelete }) {
     to: { opacity: 1, y: 0 },
   }));
 
+  const [cardLoading, setCardLoading] = useState([]);
+
+  const cancelCardLoading = (index) => {
+    const cardLoadingWithoutCancel = cardLoading.filter(
+      (c) => c !== cardLoading[index]
+    );
+    setCardLoading(cardLoadingWithoutCancel);
+  };
+
+  const handleFinishTask = (id) => {
+    console.log(id);
+    setCardLoading([...cardLoading, id]);
+  };
+
+  const deleteTask = (id) => {
+    setCardLoading([...cardLoading, id]);
+    handleDelete(id).then(cancelCardLoading);
+  };
+
   return (
     <StyledListCards>
-      {listAnimation.map((styles, i) => (
-        <StyledCard style={styles} key={i}>
-          <h1>{list[i].title}</h1>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              gap: 5,
-              marginTop: 20,
-            }}
+      {listAnimation.map((styles, i) => {
+        const task = list[i];
+        return (
+          <StyledCard
+            style={styles}
+            key={task.id}
+            className={cardLoading.includes(task.id) ? 'loading' : ''}
           >
-            <StyledButtonCard
-              color="#DC0404"
-              color2="#780202"
-              onClick={() => handleDelete(i)}
+            <p>{task.title}</p>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                gap: 5,
+                marginTop: 20,
+              }}
             >
-              <span>❌</span> Eliminar
-            </StyledButtonCard>
-            <StyledButtonCard color="#2d60cf" color2="#173a87">
-              <span>✍</span> Editar
-            </StyledButtonCard>
-            <StyledButtonCard color="#70C321" color2="#477C15">
-              <span>✅</span> Terminar
-            </StyledButtonCard>
-          </div>
-        </StyledCard>
-      ))}
+              <StyledButtonCard
+                color="#DC0404"
+                color2="#780202"
+                onClick={() => deleteTask(task.id)}
+              >
+                <span>❌</span> Delete
+              </StyledButtonCard>
+              <StyledButtonCard color="#2d60cf" color2="#173a87">
+                <span>✍</span> Edit
+              </StyledButtonCard>
+              <StyledButtonCard
+                onClick={() => handleFinishTask(task.id)}
+                color="#70C321"
+                color2="#477C15"
+              >
+                <span>✅</span> Finish
+              </StyledButtonCard>
+            </div>
+          </StyledCard>
+        );
+      })}
       <p>{listAnimation.length === 0 && 'Sin cards'}</p>
     </StyledListCards>
   );

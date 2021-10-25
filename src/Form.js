@@ -59,7 +59,7 @@ export default function Form({ handleNewTask }) {
     e.preventDefault();
 
     if (text !== '') {
-      const task = { title: text };
+      const task = { title: text, fixed: false };
       handleNewTask(task);
       changeText('');
     }
@@ -68,6 +68,7 @@ export default function Form({ handleNewTask }) {
   return (
     <StyledForm onSubmit={handleSubmit}>
       <Input handleChangeText={changeText} valueText={text} />
+      {/* <Input handleChangeText={changeText} valueText={text} type="datetime" /> */}
       <StyledButtonSubmit type="submit">Add Task</StyledButtonSubmit>
     </StyledForm>
   );

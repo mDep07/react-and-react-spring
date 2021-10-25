@@ -4,6 +4,7 @@ import './style.css';
 import styled from 'styled-components';
 import { useSpring, animated } from 'react-spring';
 
+import Db from './Db';
 import Cards from './Cards';
 import Form from './Form';
 
@@ -29,19 +30,24 @@ const ParagraphAnimated = ({ children, placeholder }) => {
   );
 };
 
-const listTask = [{ title: 'Miguel' }, { title: 'José' }, { title: 'Nicolas' }];
-
 export default function App() {
-  const [tasks, setTasks] = useState(listTask);
+  const db = Db();
+  const initialState = db.getAllTasks();
+  const [tasks, setTasks] = useState(initialState);
 
   const addNewTask = ({ title }) => {
-    setTasks([...tasks, { title }]);
+    db.addNewTask({ title })
+      .then((task) => setTasks([...tasks, task]))
+      .catch((err) => console.log('err', err));
   };
 
-  const deleteTask = (index) => {
-    const tasksWithoutDelete = tasks.filter((p) => p !== tasks[index]);
+  const deleteTask = async (taskId) => {
+    const deleteTaskID = await db.deleteTask(taskId)
+
+    const tasksWithoutDelete = tasks.filter((t) => t.id !== deleteTaskID);
     setTasks(tasksWithoutDelete);
-    // alert(index);
+
+    return deleteTaskID;
   };
 
   return (
