@@ -35,14 +35,14 @@ export default function App() {
   const initialState = db.getAllTasks();
   const [tasks, setTasks] = useState(initialState);
 
-  const addNewTask = ({ title }) => {
-    db.addNewTask({ title })
+  const addNewTask = (newTask) => {
+    db.addNewTask(newTask)
       .then((task) => setTasks([...tasks, task]))
       .catch((err) => console.log('err', err));
   };
 
   const deleteTask = async (taskId) => {
-    const deleteTaskID = await db.deleteTask(taskId)
+    const deleteTaskID = await db.deleteTask(taskId);
 
     const tasksWithoutDelete = tasks.filter((t) => t.id !== deleteTaskID);
     setTasks(tasksWithoutDelete);

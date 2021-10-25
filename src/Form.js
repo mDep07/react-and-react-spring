@@ -29,12 +29,20 @@ const StyledButtonSubmit = styled(animated.button)`
   border-radius: 100px;
   border: none;
   cursor: pointer;
-  background-color: #ebebeb;
-  color: #808080;
-  transition: all .25s ease-in-out;
+  background-color: #808080;
+  color: #fff;
+  transition: 
+    box-shadow .15s ease-in-out,
+    transform .15s ease-in-out;
+
   &:hover {
-    background-color: #808080;
-    color: #ebebeb;
+    transform: translateY(-3px);
+    box-shadow: 
+      0 3px 0 0 #232323, inset 0 0 0 0 #232323;
+  }
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 0 0 0 #232323, inset 0 1px 2px 0 #232323;
   }
 `;
 
@@ -59,7 +67,7 @@ export default function Form({ handleNewTask }) {
     e.preventDefault();
 
     if (text !== '') {
-      const task = { title: text, fixed: false };
+      const task = { title: text, importance: true };
       handleNewTask(task);
       changeText('');
     }
@@ -69,7 +77,7 @@ export default function Form({ handleNewTask }) {
     <StyledForm onSubmit={handleSubmit}>
       <Input handleChangeText={changeText} valueText={text} />
       {/* <Input handleChangeText={changeText} valueText={text} type="datetime" /> */}
-      <StyledButtonSubmit type="submit">Add Task</StyledButtonSubmit>
+      <StyledButtonSubmit type="submit">➕ Add Task</StyledButtonSubmit>
     </StyledForm>
   );
 }

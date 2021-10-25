@@ -138,11 +138,16 @@ export default function Cards({ list, handleDelete }) {
             key={task.id}
             className={cardLoading.includes(task.id) ? 'loading' : ''}
           >
-            <p>{task.title}</p>
+            <p>
+              {task.title}{' '}
+              {task.importance && (
+                <strong style={{ color: 'orange' }}>!important</strong>
+              )}
+            </p>
             <div
               style={{
                 display: 'flex',
-                justifyContent: 'space-between',
+                justifyContent: 'flex-end',
                 gap: 5,
                 marginTop: 20,
               }}
@@ -154,9 +159,9 @@ export default function Cards({ list, handleDelete }) {
               >
                 <span>❌</span> Delete
               </StyledButtonCard>
-              <StyledButtonCard color="#2d60cf" color2="#173a87">
+              {/* <StyledButtonCard color="#2d60cf" color2="#173a87">
                 <span>✍</span> Edit
-              </StyledButtonCard>
+              </StyledButtonCard> */}
               <StyledButtonCard
                 onClick={() => handleFinishTask(task.id)}
                 color="#70C321"
