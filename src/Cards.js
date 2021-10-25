@@ -40,12 +40,19 @@ const StyledCard = styled(animated.div)`
   color: #424242;
   transition: box-shadow .15s ease-in-out;
   &:hover {
-    transform: translateY(-5px);
     box-shadow: 
       0 0 0 1px #adadad, 
       0 0 0 1px #adadad,
       0 0 0 1px #adadad,
       2px 2px 0 1px #adadad;
+  }
+
+  &.loading {
+    box-shadow: 
+      0 0 0 1px #adadad, 
+      0 0 0 1px #adadad,
+      0 0 0 1px #adadad,
+      0 0 0 1px #adadad;
   }
 
   &.loading::before {
@@ -63,14 +70,14 @@ const StyledCard = styled(animated.div)`
   &.loading::after {
     position: absolute;
     content: '';
-    width: 35px;
-    height: 35px;
-    top: calc(50% - calc(45px / 2));
-    left: calc(50% - calc(45px / 2));
+    width: 30px;
+    height: 30px;
+    top: calc(50% - calc(40px / 2));
+    left: calc(50% - calc(40px / 2));
     background: transparent;
     border: 5px solid #232323;
     border-left-color: transparent;
-    animation: ${rotate} .75s linear infinite;
+    animation: ${rotate} .55s linear infinite;
     border-radius: 1000px;
     z-index: 3;
   }
