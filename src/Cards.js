@@ -81,6 +81,15 @@ const StyledCard = styled(animated.div)`
     border-radius: 1000px;
     z-index: 3;
   }
+
+  & > .title {
+    margin: 0;
+    font-size: 1.25rem
+
+    & > strong {
+      font-size: .8rem
+    }
+  }
 `;
 
 const StyledButtonCard = styled(animated.button)`
@@ -154,10 +163,19 @@ export default function Cards({ list, handleDelete }) {
             key={task.id}
             className={cardLoading.includes(task.id) ? 'loading' : ''}
           >
-            <p>
+            <p className="title">
               {task.title}{' '}
               {task.importance && (
-                <strong style={{ color: 'orange' }}>!important</strong>
+                <strong
+                  style={{
+                    backgroundColor: 'orange',
+                    padding: 2.5,
+                    borderRadius: 5,
+                    color: '#fff',
+                  }}
+                >
+                  important
+                </strong>
               )}
             </p>
             <div
