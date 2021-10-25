@@ -74,8 +74,15 @@ export default function Cards({ list, handleDelete }) {
     <StyledListCards>
       {listAnimation.map((styles, i) => (
         <StyledCard style={styles} key={i}>
-          <h1>{list[i].name}</h1>
-          <div style={{ display: 'flex', justifyContent: 'center', gap: 5 }}>
+          <h1>{list[i].title}</h1>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              gap: 5,
+              marginTop: 20,
+            }}
+          >
             <StyledButtonCard
               color="#DC0404"
               color2="#780202"

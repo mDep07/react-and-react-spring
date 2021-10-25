@@ -5,39 +5,12 @@ import styled from 'styled-components';
 import { useSpring, animated } from 'react-spring';
 
 import Cards from './Cards';
-
-const StyledInput = styled(animated.input)`
-  padding: 10px 15px;
-  font-size: 20px;
-  text-align: center
-`;
+import Form from './Form';
 
 const StyledParagraph = styled(animated.p)`
   font-size: 45px;
   color: ${(props) => (props.content ? 'inherit' : '#ccc')}
 `;
-
-const Input = ({ handleChangeText, valueText }) => {
-  // const [text, setText] = useState('');
-
-  const onChangeValue = (input) => {
-    const { value } = input.target;
-    // setText(value);
-    handleChangeText(value);
-  };
-
-  const onkeyUp = (input) => {
-    // console.log(input);
-  };
-
-  return (
-    <StyledInput
-      value={valueText}
-      onChange={onChangeValue}
-      onKeyPress={onkeyUp}
-    />
-  );
-};
 
 const ParagraphAnimated = ({ children, placeholder }) => {
   const [styles, animate] = useSpring(() => ({
@@ -56,37 +29,25 @@ const ParagraphAnimated = ({ children, placeholder }) => {
   );
 };
 
-const listPersons = [{ name: 'Miguel' }, { name: 'José' }, { name: 'Nicolas' }];
+const listTask = [{ title: 'Miguel' }, { title: 'José' }, { title: 'Nicolas' }];
 
 export default function App() {
-  const [text, setText] = useState('');
-  const [persons, setPersons] = useState(listPersons);
-  const changeText = (text) => setText(text);
+  const [tasks, setTasks] = useState(listTask);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (text !== '') {
-      addNewPerson(text);
-      changeText('');
-    }
+  const addNewTask = ({ title }) => {
+    setTasks([...tasks, { title }]);
   };
 
-  const addNewPerson = (name) => {
-    setPersons([...persons, { name }]);
-  };
-
-  const deletePerson = (index) => {
-    const personsWithoutDelete = persons.filter((p) => p !== persons[index]);
-    setPersons(personsWithoutDelete);
+  const deleteTask = (index) => {
+    const tasksWithoutDelete = tasks.filter((p) => p !== tasks[index]);
+    setTasks(tasksWithoutDelete);
     // alert(index);
   };
 
   return (
     <div style={{ textAlign: 'center' }}>
-      <form onSubmit={handleSubmit}>
-        <Input handleChangeText={changeText} valueText={text} />
-      </form>
-      <Cards list={persons} handleDelete={deletePerson} />
+      <Form handleNewTask={addNewTask} />
+      <Cards list={tasks} handleDelete={deleteTask} />
       {/* <ParagraphAnimated placeholder="Ingrese su nombre.">
         {text}
       </ParagraphAnimated> */}
