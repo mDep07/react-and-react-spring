@@ -28,11 +28,15 @@ export default function Db() {
     });
   };
 
-  const aditTask = ({ id, title, importance }) => {
+  const finishTask = (taskId) => {
     return new Promise((resolve, reject) => {
       const tasks = getAllTasks();
-      const tasksWithoutDelete = tasks.filter(({ id }) => id !== taskId);
-      localStorage.setItem(ITEMS.tasks, JSON.stringify(tasksWithoutDelete));
+      const taskFinishedIndex = tasks.findIndex(({ id }) => id === taskId);
+      const taskFinished = tasks.find(({ id }) => id === taskId);
+      taskFinished.finished = true;
+
+      tasks.splice(taskFinishedIndex, 1, taskFinished)
+      localStorage.setItem(ITEMS.tasks, JSON.stringify(tasks));
       setTimeout(() => resolve(taskId), 1500);
     });
   };

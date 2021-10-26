@@ -177,6 +177,18 @@ export default function Cards({ list, handleDelete }) {
                   important
                 </strong>
               )}
+              {task.finished && (
+                <strong
+                  style={{
+                    backgroundColor: 'green',
+                    padding: 2.5,
+                    borderRadius: 5,
+                    color: '#fff',
+                  }}
+                >
+                  finished
+                </strong>
+              )}
             </p>
             <div
               style={{
